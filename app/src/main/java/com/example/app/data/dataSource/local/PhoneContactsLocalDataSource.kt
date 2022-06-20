@@ -10,11 +10,13 @@ class PhoneContactsLocalDataSource(private val phoneContactsDao: PhoneContactsDa
 
     override suspend fun update(item: PhoneContact) = phoneContactsDao.update(item)
 
-    override suspend fun delete(item: PhoneContact) = phoneContactsDao.delete(item)
+    override suspend fun delete(itemId: Int) = phoneContactsDao.delete(itemId)
 
     override suspend fun deleteAll() = phoneContactsDao.deleteAll()
 
-    override fun get(itemId: Int): Flow<PhoneContact> = phoneContactsDao.get(itemId)
+    override suspend fun get(itemId: Int): PhoneContact? = phoneContactsDao.get(itemId)
 
-    override fun getAll(): Flow<List<PhoneContact>> = phoneContactsDao.getAll()
+    override fun loadAt(itemId: Int): Flow<PhoneContact?> = phoneContactsDao.loadAt(itemId)
+
+    override fun load(): Flow<List<PhoneContact>> = phoneContactsDao.load()
 }

@@ -9,11 +9,13 @@ class PhoneContactsDefaultRepository(private val localDataSource: PhoneContactsD
 
     override suspend fun update(item: PhoneContact) = localDataSource.update(item)
 
-    override suspend fun delete(item: PhoneContact) = localDataSource.delete(item)
+    override suspend fun delete(itemId: Int) = localDataSource.delete(itemId)
 
     override suspend fun deleteAll() = localDataSource.deleteAll()
 
-    override fun get(itemId: Int): Flow<PhoneContact> = localDataSource.get(itemId)
+    override suspend fun get(itemId: Int): PhoneContact? = localDataSource.get(itemId)
 
-    override fun getAll(): Flow<List<PhoneContact>> = localDataSource.getAll()
+    override fun loadAt(itemId: Int): Flow<PhoneContact?> = localDataSource.loadAt(itemId)
+
+    override fun load(): Flow<List<PhoneContact>> = localDataSource.load()
 }

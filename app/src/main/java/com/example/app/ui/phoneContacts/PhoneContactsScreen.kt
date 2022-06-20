@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.app.ui
+package com.example.app.ui.phoneContacts
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,9 +33,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import com.example.app.R
 import com.example.app.data.PhoneContact
 import com.example.app.util.PhoneContactsTopAppBar
-import com.example.app.R
 
 @Composable
 fun PhoneContactsScreen(
@@ -56,14 +56,12 @@ fun PhoneContactsScreen(
                 Icon(Icons.Filled.Add, stringResource(id = R.string.add_phone_contact))
             }
         }
-    ) { paddingValues ->
-        println("error repeated")
+    ) {
         val items by viewModel.getAll().collectAsState(initial = emptyList())
 
         if (items.isEmpty()) TasksEmptyContent() else PhoneContactsContent(
             items = items,
-            onItemClick = onItemClick,
-            modifier = Modifier.padding(paddingValues)
+            onItemClick = onItemClick
         )
     }
 }
@@ -71,8 +69,7 @@ fun PhoneContactsScreen(
 @Composable
 private fun PhoneContactsContent(
     items: List<PhoneContact>,
-    onItemClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    onItemClick: (Int) -> Unit
 ) {
     LazyColumn {
         items(items) { item ->

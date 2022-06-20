@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.app.ui
+package com.example.app.ui.phoneContact
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -30,41 +28,43 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.example.app.R
-import com.example.app.data.PhoneContact
+import com.example.app.ui.PhoneContactScreenAttributes
 import com.example.app.util.PhoneContactTopAppBar
 
 @Composable
 fun PhoneContactScreen(
-    viewModel: PhoneContactsViewModel,
-    itemId: Int,
-/*
-    onEditItem: () -> Unit,
-*/
-    onDeleteItem: () -> Unit,
-    onBack: () -> Unit,
+    viewModel: PhoneContactViewModel,
+    screenAttrs: PhoneContactScreenAttributes,
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
-    val itemState = viewModel.getItem(itemId).collectAsState(null)
+    val itemState = viewModel.loadItem().collectAsState(PhoneContactUiState())
 
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = modifier.fillMaxSize(),
         topBar = {
-            PhoneContactTopAppBar(R.string.phone_contact, onBack = onBack, onDelete = {
-                viewModel.delete(itemState.value!!)
-                onDeleteItem()
-            })
-        }/*,
+            PhoneContactTopAppBar(
+                R.string.phone_contact,
+                onBack = screenAttrs.onBack,
+                onDelete = {
+                    viewModel.delete()
+                    screenAttrs.onDeleteItem()
+                }
+            )
+        },
         floatingActionButton = {
-            FloatingActionButton(onClick = { onEditItem() }) {
+            if (!itemState.value.isLoading) FloatingActionButton(onClick = {
+                screenAttrs.onEditItem(
+                    itemState.value.id!!
+                )
+            }) {
                 Icon(Icons.Filled.Edit, stringResource(id = R.string.edit_phone_contact))
             }
         }
-*/
     ) { paddingValues ->
-        if (itemState.value == null) PhoneContactEmptyContent() else PhoneContactContent(
-            item = itemState.value!!,
+        if (itemState.value.isLoading) PhoneContactEmptyContent() else PhoneContactContent(
+            item = itemState.value,
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -72,7 +72,7 @@ fun PhoneContactScreen(
 
 @Composable
 private fun PhoneContactContent(
-    item: PhoneContact,
+    item: PhoneContactUiState,
     modifier: Modifier = Modifier
 ) {
     Column(

@@ -18,12 +18,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    AndroidComposeAppTheme {
-        Greeting("Android")
-    }
-}*/

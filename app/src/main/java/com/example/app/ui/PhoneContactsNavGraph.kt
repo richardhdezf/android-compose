@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.app.ui
 
 import androidx.compose.runtime.Composable
@@ -28,7 +12,13 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.app.di.AppContainer
 import com.example.app.ui.PhoneContactsDestinationsArgs.PHONE_CONTACT_ID_ARG
-import com.example.app.util.getViewModelFactory
+import com.example.app.ui.addEditPhoneContact.AddEditPhoneContactScreen
+import com.example.app.ui.addEditPhoneContact.AddEditPhoneContactViewModel
+import com.example.app.ui.phoneContact.PhoneContactScreen
+import com.example.app.ui.phoneContact.PhoneContactViewModel
+import com.example.app.ui.phoneContacts.PhoneContactsScreen
+import com.example.app.ui.phoneContacts.PhoneContactsViewModel
+import com.example.app.util.getPhoneContactsViewModelFactory
 
 @Composable
 fun PhoneContactsNavGraph(
@@ -40,19 +30,14 @@ fun PhoneContactsNavGraph(
         PhoneContactsNavigationActions(navController)
     }
 ) {
-/*
-    val viewModel: PhoneContactsViewModel = viewModel(0
-        factory = PhoneContactsViewModelFactory(appContainer.phoneContactsRepository)
-    )
-*/
-    val viewModel: PhoneContactsViewModel =
-        viewModel(factory = getViewModelFactory(appContainer = appContainer))
     NavHost(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier
     ) {
         composable(PhoneContactsDestinations.PHONE_CONTACTS_ROUTE) {
+            val viewModel: PhoneContactsViewModel =
+                viewModel(factory = getPhoneContactsViewModelFactory(appContainer = appContainer))
             PhoneContactsScreen(
                 viewModel = viewModel,
                 onAddItem = { navActions.navigateToAddEditPhoneContact(null) },
@@ -61,33 +46,65 @@ fun PhoneContactsNavGraph(
         }
         composable(
             PhoneContactsDestinations.PHONE_CONTACT_ROUTE,
-            arguments = listOf(navArgument(PHONE_CONTACT_ID_ARG) {
-                type = NavType.StringType
-            })
+            arguments = listOf(
+                navArgument(PHONE_CONTACT_ID_ARG) {
+                    type = NavType.IntType
+                }
+            )
         ) { entry ->
-            val itemId = entry.arguments?.getString(PHONE_CONTACT_ID_ARG)?.toInt()
-            PhoneContactScreen(
-                viewModel = viewModel,
-                itemId = itemId!!,
-/*
-                onEditItem = { navActions.navigateToAddEditPhoneContact(itemId) },
-*/
+            val viewModel: PhoneContactViewModel =
+                viewModel(
+                    factory = getPhoneContactsViewModelFactory(
+                        appContainer = appContainer,
+                        entry.arguments
+                    )
+                )
+            val screenAttributes = PhoneContactScreenAttributes(
+                onEditItem = { navActions.navigateToAddEditPhoneContact(it) },
                 onDeleteItem = { navActions.navigateToPhoneContacts() },
                 onBack = { navController.popBackStack() }
+            )
+
+            PhoneContactScreen(
+                viewModel = viewModel,
+                screenAttrs = screenAttributes
             )
         }
         composable(
             PhoneContactsDestinations.ADD_EDIT_PHONE_CONTACT_ROUTE,
-            arguments = listOf(navArgument(PHONE_CONTACT_ID_ARG) {
-                type = NavType.StringType; nullable = true
-            })
+            arguments = listOf(
+                navArgument(PHONE_CONTACT_ID_ARG) {
+                    type = NavType.StringType; nullable = true
+                }
+            )
         ) { entry ->
-            val itemId = entry.arguments?.getString(PHONE_CONTACT_ID_ARG)?.toInt()
+            val viewModel: AddEditPhoneContactViewModel =
+                viewModel(
+                    factory = getPhoneContactsViewModelFactory(
+                        appContainer = appContainer,
+                        entry.arguments
+                    )
+                )
+            val screenAttributes = AddEditPhoneContactScreenAttributes(
+                onSave = { navActions.navigateToPhoneContacts() },
+                onBack = { navController.popBackStack() }
+            )
+
             AddEditPhoneContactScreen(
                 viewModel = viewModel,
-                itemId = itemId,
-                onBack = { navController.popBackStack() }
+                screenAttrs = screenAttributes
             )
         }
     }
 }
+
+data class PhoneContactScreenAttributes(
+    val onEditItem: (Int) -> Unit,
+    val onDeleteItem: () -> Unit,
+    val onBack: () -> Unit,
+)
+
+data class AddEditPhoneContactScreenAttributes(
+    val onSave: () -> Unit,
+    val onBack: () -> Unit,
+)

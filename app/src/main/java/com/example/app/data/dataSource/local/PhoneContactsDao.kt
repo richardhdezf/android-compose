@@ -1,6 +1,10 @@
 package com.example.app.data.dataSource.local
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import com.example.app.data.PhoneContact
 import kotlinx.coroutines.flow.Flow
 
@@ -12,15 +16,18 @@ interface PhoneContactsDao {
     @Update
     suspend fun update(item: PhoneContact)
 
-    @Delete
-    suspend fun delete(item: PhoneContact)
+    @Query("DELETE FROM phone_contacts WHERE id = :itemId")
+    suspend fun delete(itemId: Int)
 
     @Query("DELETE FROM phone_contacts")
     suspend fun deleteAll()
 
     @Query("SELECT * FROM phone_contacts WHERE id = :itemId")
-    fun get(itemId: Int): Flow<PhoneContact>
+    suspend fun get(itemId: Int): PhoneContact?
+
+    @Query("SELECT * FROM phone_contacts WHERE id = :itemId")
+    fun loadAt(itemId: Int): Flow<PhoneContact?>
 
     @Query("SELECT * FROM phone_contacts ORDER BY name ASC")
-    fun getAll(): Flow<List<PhoneContact>>
+    fun load(): Flow<List<PhoneContact>>
 }

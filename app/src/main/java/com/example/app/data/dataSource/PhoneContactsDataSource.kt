@@ -8,11 +8,13 @@ interface PhoneContactsDataSource {
 
     suspend fun update(item: PhoneContact)
 
-    suspend fun delete(item: PhoneContact)
+    suspend fun delete(itemId: Int)
 
     suspend fun deleteAll()
 
-    fun get(itemId: Int): Flow<PhoneContact>
+    suspend fun get(itemId: Int): PhoneContact?
 
-    fun getAll(): Flow<List<PhoneContact>>
+    fun loadAt(itemId: Int): Flow<PhoneContact?>
+
+    fun load(): Flow<List<PhoneContact>>
 }

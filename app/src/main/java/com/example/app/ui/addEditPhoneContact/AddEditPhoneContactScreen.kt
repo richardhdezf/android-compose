@@ -1,19 +1,4 @@
-/*
- * Copyright (C) 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package com.example.app.ui
+package com.example.app.ui.addEditPhoneContact
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,7 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
@@ -43,40 +27,38 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.app.R
+import com.example.app.ui.AddEditPhoneContactScreenAttributes
 import com.example.app.util.AddEditPhoneContactTopAppBar
 
-//Only add values
 @Composable
 fun AddEditPhoneContactScreen(
-    viewModel: PhoneContactsViewModel,
-    itemId: Int?,
-    onBack: () -> Unit,
+    viewModel: AddEditPhoneContactViewModel,
+    screenAttrs: AddEditPhoneContactScreenAttributes,
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
-    val topBarTitle =  R.string.add_phone_contact
+    val topBarTitle = R.string.add_phone_contact
 
-    var nameInput by rememberSaveable { mutableStateOf("") }
-    var phoneInput by rememberSaveable { mutableStateOf("") }
+    val itemState = viewModel.getItem().collectAsState()
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
-        topBar = { AddEditPhoneContactTopAppBar(topBarTitle, onBack) },
+        topBar = { AddEditPhoneContactTopAppBar(topBarTitle, screenAttrs.onBack) },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                viewModel.save(itemId, nameInput, phoneInput)
-                onBack()
+                viewModel.save()
+                screenAttrs.onSave()
             }) {
                 Icon(Icons.Filled.Done, stringResource(id = R.string.save_phone_contact))
             }
         }
     ) { paddingValues ->
         AddEditPhoneContactContent(
-            name = nameInput,
-            phone = phoneInput,
-            onNameChanged = { nameInput = it },
-            onPhoneChanged = { phoneInput = it },
+            name = itemState.value.name,
+            phone = itemState.value.phone,
+            onNameChanged = { viewModel.updateName(it) },
+            onPhoneChanged = { viewModel.updatePhone(it) },
             modifier = Modifier.padding(paddingValues)
         )
     }

@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.app.util
 
 import androidx.annotation.StringRes
@@ -34,6 +18,7 @@ import com.example.app.R
 import com.example.app.ui.theme.AndroidComposeAppTheme
 
 @Composable
+@Suppress("FunctionNaming")
 fun PhoneContactsTopAppBar(@StringRes title: Int) {
     TopAppBar(
         title = { Text(text = stringResource(title)) },
@@ -42,6 +27,7 @@ fun PhoneContactsTopAppBar(@StringRes title: Int) {
 }
 
 @Composable
+@Suppress("FunctionNaming")
 fun PhoneContactTopAppBar(@StringRes title: Int, onBack: () -> Unit, onDelete: () -> Unit) {
     TopAppBar(
         title = {
@@ -62,6 +48,7 @@ fun PhoneContactTopAppBar(@StringRes title: Int, onBack: () -> Unit, onDelete: (
 }
 
 @Composable
+@Suppress("FunctionNaming")
 fun AddEditPhoneContactTopAppBar(@StringRes title: Int, onBack: () -> Unit) {
     TopAppBar(
         title = { Text(text = stringResource(title)) },
@@ -76,8 +63,9 @@ fun AddEditPhoneContactTopAppBar(@StringRes title: Int, onBack: () -> Unit) {
 
 @Preview
 @Composable
+@Suppress("UnusedPrivateMember", "FunctionNaming")
 private fun PhoneContactsTopAppBarPreview() {
-    AndroidComposeAppTheme{
+    AndroidComposeAppTheme {
         Surface {
             PhoneContactsTopAppBar(R.string.app_name)
         }
@@ -86,6 +74,7 @@ private fun PhoneContactsTopAppBarPreview() {
 
 @Preview
 @Composable
+@Suppress("UnusedPrivateMember", "FunctionNaming")
 private fun PhoneContactTopAppBarPreview() {
     AndroidComposeAppTheme {
         Surface {
@@ -96,10 +85,22 @@ private fun PhoneContactTopAppBarPreview() {
 
 @Preview
 @Composable
-private fun AddEditPhoneContactTopAppBarPreview() {
+@Suppress("UnusedPrivateMember", "FunctionNaming")
+private fun AddPhoneContactTopAppBarPreview() {
     AndroidComposeAppTheme {
         Surface {
             AddEditPhoneContactTopAppBar(R.string.add_phone_contact) { }
+        }
+    }
+}
+
+@Preview
+@Composable
+@Suppress("UnusedPrivateMember", "FunctionNaming")
+private fun EditPhoneContactTopAppBarPreview() {
+    AndroidComposeAppTheme {
+        Surface {
+            AddEditPhoneContactTopAppBar(R.string.edit_phone_contact) { }
         }
     }
 }

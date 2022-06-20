@@ -24,25 +24,14 @@ object PhoneContactsDestinations {
         "$ADD_EDIT_PHONE_CONTACT_SCREEN?$PHONE_CONTACT_ID_ARG={$PHONE_CONTACT_ID_ARG}"
 }
 
-/**
- * Models the navigation actions in the app.
- */
 class PhoneContactsNavigationActions(private val navController: NavHostController) {
 
     fun navigateToPhoneContacts() {
         navController.navigate(PHONE_CONTACTS_SCREEN) {
             popUpTo(navController.graph.findStartDestination().id) {
                 inclusive = true
-/*
-                saveState = false
-*/
             }
-/*
             launchSingleTop = true
-*/
-/*
-            restoreState = false
-*/
         }
     }
 
