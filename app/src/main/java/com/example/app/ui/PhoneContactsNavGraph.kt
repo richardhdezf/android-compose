@@ -11,14 +11,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.app.di.AppContainer
+import com.example.app.presentation.AddEditPhoneContactViewModel
+import com.example.app.presentation.PhoneContactViewModel
+import com.example.app.presentation.PhoneContactsViewModel
 import com.example.app.ui.PhoneContactsDestinationsArgs.PHONE_CONTACT_ID_ARG
 import com.example.app.ui.addEditPhoneContact.AddEditPhoneContactScreen
-import com.example.app.ui.addEditPhoneContact.AddEditPhoneContactViewModel
 import com.example.app.ui.phoneContact.PhoneContactScreen
-import com.example.app.ui.phoneContact.PhoneContactViewModel
 import com.example.app.ui.phoneContacts.PhoneContactsScreen
-import com.example.app.ui.phoneContacts.PhoneContactsViewModel
-import com.example.app.util.getPhoneContactsViewModelFactory
+import com.example.app.ui.util.getPhoneContactsViewModelFactory
 
 @Composable
 fun PhoneContactsNavGraph(

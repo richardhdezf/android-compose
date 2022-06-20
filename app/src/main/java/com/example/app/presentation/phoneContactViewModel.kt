@@ -1,9 +1,9 @@
-package com.example.app.ui.phoneContact
+package com.example.app.presentation
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.app.data.PhoneContactsRepository
+import com.example.app.domain.PhoneContactsRepository
 import com.example.app.ui.PhoneContactsDestinationsArgs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -2,7 +2,7 @@ package com.example.app.di
 
 import android.content.Context
 import com.example.app.data.PhoneContactsDefaultRepository
-import com.example.app.data.PhoneContactsRepository
+import com.example.app.domain.PhoneContactsRepository
 import com.example.app.data.dataSource.local.ApplicationDatabase
 import com.example.app.data.dataSource.local.PhoneContactsLocalDataSource
 

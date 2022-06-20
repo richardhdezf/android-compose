@@ -35,7 +35,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.example.app.R
 import com.example.app.data.PhoneContact
-import com.example.app.util.PhoneContactsTopAppBar
+import com.example.app.presentation.PhoneContactsViewModel
+import com.example.app.ui.util.PhoneContactsTopAppBar
 
 @Composable
 fun PhoneContactsScreen(

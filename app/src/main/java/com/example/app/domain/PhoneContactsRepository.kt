@@ -1,5 +1,6 @@
-package com.example.app.data
+package com.example.app.domain
 
+import com.example.app.data.PhoneContact
 import kotlinx.coroutines.flow.Flow
 
 interface PhoneContactsRepository {

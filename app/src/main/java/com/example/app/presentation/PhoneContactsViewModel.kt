@@ -1,9 +1,9 @@
-package com.example.app.ui.phoneContacts
+package com.example.app.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.app.data.PhoneContact
-import com.example.app.data.PhoneContactsRepository
+import com.example.app.domain.PhoneContactsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 

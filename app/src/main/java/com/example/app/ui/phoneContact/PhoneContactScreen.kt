@@ -28,8 +28,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.example.app.R
+import com.example.app.presentation.PhoneContactUiState
+import com.example.app.presentation.PhoneContactViewModel
 import com.example.app.ui.PhoneContactScreenAttributes
-import com.example.app.util.PhoneContactTopAppBar
+import com.example.app.ui.util.PhoneContactTopAppBar
 
 @Composable
 fun PhoneContactScreen(

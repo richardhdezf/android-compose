@@ -1,17 +1,14 @@
-package com.example.app.ui
+package com.example.app.presentation
 
 import android.os.Bundle
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import com.example.app.data.PhoneContactsRepository
-import com.example.app.ui.addEditPhoneContact.AddEditPhoneContactViewModel
-import com.example.app.ui.phoneContact.PhoneContactViewModel
-import com.example.app.ui.phoneContacts.PhoneContactsViewModel
+import com.example.app.domain.PhoneContactsRepository
 
 @Suppress("UNCHECKED_CAST")
-class PhoneContactsViewModelFactory constructor(
+class PhoneContactsDefaultViewModelFactory constructor(
     private val phoneContactsRepository: PhoneContactsRepository,
     owner: SavedStateRegistryOwner,
     defaultArgs: Bundle? = null

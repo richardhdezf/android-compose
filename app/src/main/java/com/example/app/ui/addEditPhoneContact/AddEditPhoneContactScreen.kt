@@ -27,8 +27,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.app.R
+import com.example.app.presentation.AddEditPhoneContactViewModel
 import com.example.app.ui.AddEditPhoneContactScreenAttributes
-import com.example.app.util.AddEditPhoneContactTopAppBar
+import com.example.app.ui.util.AddEditPhoneContactTopAppBar
 
 @Composable
 fun AddEditPhoneContactScreen(

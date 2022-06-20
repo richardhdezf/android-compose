@@ -1,9 +1,9 @@
-package com.example.app
+package com.example.app.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.app.ui.PhoneContactsNavGraph
+import com.example.app.MainApplication
 import com.example.app.ui.theme.AndroidComposeAppTheme
 
 class MainActivity : ComponentActivity() {
