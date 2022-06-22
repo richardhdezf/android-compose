@@ -25,6 +25,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -35,6 +37,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.example.app.R
 import com.example.app.data.PhoneContact
+import com.example.app.presentation.PhoneContactsUiState
 import com.example.app.presentation.PhoneContactsViewModel
 import com.example.app.ui.util.PhoneContactsTopAppBar
 
@@ -58,10 +61,10 @@ fun PhoneContactsScreen(
             }
         }
     ) {
-        val items by viewModel.getAll().collectAsState(initial = emptyList())
+        val uiState by viewModel.load().collectAsState(initial = PhoneContactsUiState() )
 
-        if (items.isEmpty()) TasksEmptyContent() else PhoneContactsContent(
-            items = items,
+        if (uiState.items.isEmpty()) TasksEmptyContent() else PhoneContactsContent(
+            items = uiState.items,
             onItemClick = onItemClick
         )
     }
@@ -97,13 +100,10 @@ private fun PhoneContactItem(
             )
             .clickable { onItemClick(item.id!!) }
     ) {
-        Text(
-            text = item.name,
-            style = MaterialTheme.typography.h6,
-            modifier = Modifier.padding(
-                start = dimensionResource(id = R.dimen.horizontal_margin)
-            )
-        )
+        Column {
+            Text(text = item.name, style = MaterialTheme.typography.h6)
+            Text(text = item.phone, style = MaterialTheme.typography.body1)
+        }
     }
 }
 

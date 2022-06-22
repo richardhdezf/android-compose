@@ -3,19 +3,13 @@ package com.example.app.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.app.data.PhoneContact
-import com.example.app.domain.PhoneContactsRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
+import com.example.app.domain.useCases.LoadPhoneContactsUseCase
+import kotlinx.coroutines.flow.*
 
-data class PhoneContactsUiState(val items: List<PhoneContact>)
+data class PhoneContactsUiState(val items: List<PhoneContact> = emptyList())
 
-class PhoneContactsViewModel(private val phoneContactsRepository: PhoneContactsRepository) :
+class PhoneContactsViewModel(private val loadPhoneContactsUseCase: LoadPhoneContactsUseCase) :
     ViewModel() {
-    fun deleteAll() {
-        viewModelScope.launch {
-            phoneContactsRepository.deleteAll()
-        }
-    }
-
-    fun getAll(): Flow<List<PhoneContact>> = phoneContactsRepository.load()
+    fun load(): Flow<PhoneContactsUiState> =
+        loadPhoneContactsUseCase().map { PhoneContactsUiState(items = it) }
 }
