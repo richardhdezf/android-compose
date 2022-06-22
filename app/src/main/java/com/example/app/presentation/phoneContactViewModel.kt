@@ -3,10 +3,10 @@ package com.example.app.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.app.domain.PhoneContactsRepository
+import com.example.app.domain.useCases.DeletePhoneContactUseCase
+import com.example.app.domain.useCases.LoadPhoneContactUseCase
 import com.example.app.ui.PhoneContactsDestinationsArgs
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 data class PhoneContactUiState(
@@ -17,7 +17,8 @@ data class PhoneContactUiState(
 )
 
 class PhoneContactViewModel(
-    private val phoneContactsRepository: PhoneContactsRepository,
+    private val deletePhoneContactUseCase: DeletePhoneContactUseCase,
+    private val loadPhoneContactUseCase: LoadPhoneContactUseCase,
     savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {
@@ -26,12 +27,12 @@ class PhoneContactViewModel(
 
     fun delete() {
         viewModelScope.launch {
-            phoneContactsRepository.delete(itemId)
+            deletePhoneContactUseCase(itemId)
         }
     }
 
-    fun loadItem(): Flow<PhoneContactUiState> =
-        phoneContactsRepository.loadAt(itemId)
+    fun loadAt(): Flow<PhoneContactUiState> =
+        loadPhoneContactUseCase(itemId)
             .map {
                 if (it == null) PhoneContactUiState() else PhoneContactUiState(
                     it.id,

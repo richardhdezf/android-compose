@@ -1,7 +1,7 @@
 package com.example.app.data
 
 import com.example.app.data.dataSource.PhoneContactsDataSource
-import com.example.app.domain.PhoneContactsRepository
+import com.example.app.domain.interfaces.PhoneContactsRepository
 import kotlinx.coroutines.flow.Flow
 
 class PhoneContactsDefaultRepository(private val localDataSource: PhoneContactsDataSource) :

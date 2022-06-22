@@ -1,4 +1,4 @@
-package com.example.app.domain
+package com.example.app.domain.interfaces
 
 import com.example.app.data.PhoneContact
 import kotlinx.coroutines.flow.Flow

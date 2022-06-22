@@ -38,9 +38,9 @@ fun AddEditPhoneContactScreen(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
-    val topBarTitle = R.string.add_phone_contact
-
     val itemState = viewModel.getItem().collectAsState()
+    val topBarTitle =
+        if (itemState.value.isEditing) R.string.edit_phone_contact else R.string.add_phone_contact
 
     Scaffold(
         modifier = modifier.fillMaxSize(),

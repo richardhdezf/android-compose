@@ -4,16 +4,16 @@ import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalSavedStateRegistryOwner
 import com.example.app.di.AppContainer
-import com.example.app.presentation.PhoneContactsDefaultViewModelFactory
+import com.example.app.presentation.PhoneContactsViewModelFactory
 
 @Composable
 fun getPhoneContactsViewModelFactory(
     appContainer: AppContainer,
     defaultArgs: Bundle? = null
-): PhoneContactsDefaultViewModelFactory {
-    val repository = appContainer.phoneContactsRepository
-    return PhoneContactsDefaultViewModelFactory(
-        repository,
+): PhoneContactsViewModelFactory {
+    val factoryArgs = appContainer.phoneContactsFactoryArgs
+    return PhoneContactsViewModelFactory(
+        factoryArgs,
         LocalSavedStateRegistryOwner.current,
         defaultArgs
     )

@@ -40,7 +40,7 @@ fun PhoneContactScreen(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
-    val itemState = viewModel.loadItem().collectAsState(PhoneContactUiState())
+    val itemState = viewModel.loadAt().collectAsState(initial = PhoneContactUiState())
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -65,16 +65,20 @@ fun PhoneContactScreen(
             }
         }
     ) { paddingValues ->
-        if (itemState.value.isLoading) PhoneContactEmptyContent() else PhoneContactContent(
-            item = itemState.value,
-            modifier = Modifier.padding(paddingValues)
-        )
+        if (itemState.value.isLoading) PhoneContactEmptyContent() else {
+            val itemAttributes =
+                PhoneContactContentAttrs(itemState.value.name, itemState.value.phone)
+            PhoneContactContent(
+                attributes = itemAttributes,
+                modifier = Modifier.padding(paddingValues)
+            )
+        }
     }
 }
 
 @Composable
 private fun PhoneContactContent(
-    item: PhoneContactUiState,
+    attributes: PhoneContactContentAttrs,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -83,8 +87,8 @@ private fun PhoneContactContent(
             .padding(all = dimensionResource(id = R.dimen.horizontal_margin))
             .verticalScroll(rememberScrollState())
     ) {
-        Text(text = item.name, style = MaterialTheme.typography.h6)
-        Text(text = item.phone, style = MaterialTheme.typography.body1)
+        Text(text = attributes.name, style = MaterialTheme.typography.h6)
+        Text(text = attributes.phone, style = MaterialTheme.typography.body1)
     }
 }
 
@@ -100,3 +104,8 @@ private fun PhoneContactEmptyContent(
         Text(stringResource(R.string.loading))
     }
 }
+
+data class PhoneContactContentAttrs(
+    val name: String,
+    val phone: String
+)
