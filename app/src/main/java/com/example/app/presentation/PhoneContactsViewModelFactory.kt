@@ -21,7 +21,9 @@ class PhoneContactsViewModelFactory constructor(
     ) = with(modelClass) {
         when {
             isAssignableFrom(PhoneContactsViewModel::class.java) ->
-                PhoneContactsViewModel(factoryArgs.loadPhoneContactsUseCase)
+                PhoneContactsViewModel(
+                    factoryArgs.loadPhoneContactsUseCase
+                )
             isAssignableFrom(PhoneContactViewModel::class.java) ->
                 PhoneContactViewModel(
                     factoryArgs.deletePhoneContactUseCase,
@@ -45,5 +47,5 @@ data class PhoneContactsDefaultViewModelFactoryArgs(
     val savePhoneContactUseCase: SavePhoneContactUseCase,
     val getPhoneContactUseCase: GetPhoneContactUseCase,
     val loadPhoneContactUseCase: LoadPhoneContactUseCase,
-    val loadPhoneContactsUseCase: LoadPhoneContactsUseCase,
+    val loadPhoneContactsUseCase: LoadPhoneContactsUseCase
 )

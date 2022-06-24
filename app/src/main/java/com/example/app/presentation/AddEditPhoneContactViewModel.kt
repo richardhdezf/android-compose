@@ -14,6 +14,7 @@ data class AddEditPhoneContactUiState(
     val id: Int? = null,
     val name: String = "",
     val phone: String = "",
+    val isFavorite: Boolean = false,
     val isEditing: Boolean = false,
 )
 
@@ -39,6 +40,7 @@ class AddEditPhoneContactViewModel(
                         id = item.id,
                         name = item.name,
                         phone = item.phone,
+                        isFavorite = item.isFavorite,
                         isEditing = true
                     )
                 } else {
@@ -60,9 +62,20 @@ class AddEditPhoneContactViewModel(
         }
     }
 
+    fun updateFavoriteStatus(value: Boolean) = viewModelScope.launch {
+        _uiState.update {
+            it.copy(isFavorite = value)
+        }
+    }
+
     fun save() {
         viewModelScope.launch {
-            savePhoneContactUseCase(itemId, _uiState.value.name, _uiState.value.phone)
+            savePhoneContactUseCase(
+                itemId,
+                _uiState.value.name,
+                _uiState.value.phone,
+                _uiState.value.isFavorite
+            )
         }
     }
 

@@ -13,6 +13,7 @@ data class PhoneContactUiState(
     val id: Int? = null,
     val name: String = "",
     val phone: String = "",
+    val isFavorite: Boolean = false,
     val isLoading: Boolean = true
 )
 
@@ -38,6 +39,7 @@ class PhoneContactViewModel(
                     it.id,
                     it.name,
                     it.phone,
+                    it.isFavorite,
                     isLoading = false
                 )
             }

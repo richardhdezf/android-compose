@@ -16,36 +16,26 @@
 
 package com.example.app.ui.phoneContacts
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.example.app.R
-import com.example.app.data.PhoneContact
 import com.example.app.presentation.PhoneContactsUiState
 import com.example.app.presentation.PhoneContactsViewModel
 import com.example.app.ui.util.PhoneContactsTopAppBar
 
 @Composable
 fun PhoneContactsScreen(
+    tabContent: List<TabContent>,
+    currentSection: Sections,
+    onSectionChange: (Sections) -> Unit,
     viewModel: PhoneContactsViewModel,
     onAddItem: () -> Unit,
-    onItemClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
@@ -61,54 +51,38 @@ fun PhoneContactsScreen(
             }
         }
     ) {
-        val uiState by viewModel.load().collectAsState(initial = PhoneContactsUiState() )
+        val uiState by viewModel.uiState.collectAsState(initial = PhoneContactsUiState())
 
-        if (uiState.items.isEmpty()) TasksEmptyContent() else PhoneContactsContent(
-            items = uiState.items,
-            onItemClick = onItemClick
+        if (uiState.items.isEmpty()) PhoneContactsEmptyContent() else PhoneContactsContent(
+            tabContent = tabContent,
+            currentSection = currentSection,
+            onSectionChange = onSectionChange
         )
     }
 }
 
 @Composable
 private fun PhoneContactsContent(
-    items: List<PhoneContact>,
-    onItemClick: (Int) -> Unit
+    tabContent: List<TabContent>,
+    currentSection: Sections,
+    onSectionChange: (Sections) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    LazyColumn {
-        items(items) { item ->
-            PhoneContactItem(
-                item = item,
-                onItemClick = onItemClick
-            )
+    val selectedTabIndex = tabContent.indexOfFirst { it.section == currentSection }
+    Column(modifier) {
+        PhoneContactsTabRow(selectedTabIndex, tabContent, onSectionChange)
+        Divider(
+            color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f)
+        )
+        Box(modifier = Modifier.weight(1f)) {
+            // display the current tab content which is a @Composable () -> Unit
+            tabContent[selectedTabIndex].content()
         }
     }
 }
 
 @Composable
-private fun PhoneContactItem(
-    item: PhoneContact,
-    onItemClick: (Int) -> Unit
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                horizontal = dimensionResource(id = R.dimen.horizontal_margin),
-                vertical = dimensionResource(id = R.dimen.list_item_padding),
-            )
-            .clickable { onItemClick(item.id!!) }
-    ) {
-        Column {
-            Text(text = item.name, style = MaterialTheme.typography.h6)
-            Text(text = item.phone, style = MaterialTheme.typography.body1)
-        }
-    }
-}
-
-@Composable
-private fun TasksEmptyContent(
+private fun PhoneContactsEmptyContent(
     modifier: Modifier = Modifier
 ) {
     Column(

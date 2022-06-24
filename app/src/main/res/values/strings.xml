@@ -10,4 +10,7 @@
     <string name="loading">Loading</string>
     <string name="name_hint">Name</string>
     <string name="phone_hint">Phone</string>
+    <string name="is_favorite">Is favorite</string>
+    <string name="phone_contacts_section_all">All</string>
+    <string name="phone_contacts_section_recent">Recent</string>
 </resources>

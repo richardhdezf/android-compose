@@ -67,7 +67,11 @@ fun PhoneContactScreen(
     ) { paddingValues ->
         if (itemState.value.isLoading) PhoneContactEmptyContent() else {
             val itemAttributes =
-                PhoneContactContentAttrs(itemState.value.name, itemState.value.phone)
+                PhoneContactContentAttrs(
+                    itemState.value.name,
+                    itemState.value.phone,
+                    itemState.value.isFavorite
+                )
             PhoneContactContent(
                 attributes = itemAttributes,
                 modifier = Modifier.padding(paddingValues)
@@ -89,6 +93,20 @@ private fun PhoneContactContent(
     ) {
         Text(text = attributes.name, style = MaterialTheme.typography.h6)
         Text(text = attributes.phone, style = MaterialTheme.typography.body1)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = dimensionResource(id = R.dimen.list_item_padding))
+        ) {
+            Checkbox(checked = attributes.isFavorite, onCheckedChange = null)
+            Text(
+                text = stringResource(id = R.string.is_favorite),
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(
+                    start = dimensionResource(id = R.dimen.horizontal_margin)
+                )
+            )
+        }
     }
 }
 
@@ -107,5 +125,6 @@ private fun PhoneContactEmptyContent(
 
 data class PhoneContactContentAttrs(
     val name: String,
-    val phone: String
+    val phone: String,
+    val isFavorite: Boolean
 )

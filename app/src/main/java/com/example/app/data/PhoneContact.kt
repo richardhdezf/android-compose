@@ -14,5 +14,8 @@ data class PhoneContact(
     val name: String,
 
     @ColumnInfo(name = "phone")
-    val phone: String
+    val phone: String,
+
+    @ColumnInfo(name = "isFavorite")
+    val isFavorite: Boolean
 )

@@ -22,7 +22,6 @@ based on that data.
 User story 03
 -----------
 
-As an user, I would like to add contacts in any moment, so that I can have all my contacts data in
-one place.
+As an user, I would like to manage the information of my contacts, so that always is up to date.
 
 ![add_phone contact screen](./addPhoneContact.jpeg "snap 3")

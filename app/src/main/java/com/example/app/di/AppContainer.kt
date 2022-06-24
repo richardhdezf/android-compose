@@ -20,7 +20,7 @@ class DefaultAppContainer(private val applicationContext: Context) : AppContaine
             savePhoneContactUseCase = SavePhoneContactUseCase(phoneContactsRepository),
             getPhoneContactUseCase = GetPhoneContactUseCase(phoneContactsRepository),
             loadPhoneContactUseCase = LoadPhoneContactUseCase(phoneContactsRepository),
-            loadPhoneContactsUseCase = LoadPhoneContactsUseCase(phoneContactsRepository),
+            loadPhoneContactsUseCase = LoadPhoneContactsUseCase(phoneContactsRepository)
         )
     }
 

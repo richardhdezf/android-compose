@@ -17,7 +17,7 @@ import com.example.app.presentation.PhoneContactsViewModel
 import com.example.app.ui.PhoneContactsDestinationsArgs.PHONE_CONTACT_ID_ARG
 import com.example.app.ui.addEditPhoneContact.AddEditPhoneContactScreen
 import com.example.app.ui.phoneContact.PhoneContactScreen
-import com.example.app.ui.phoneContacts.PhoneContactsScreen
+import com.example.app.ui.phoneContacts.PhoneContactsRoute
 import com.example.app.ui.util.getPhoneContactsViewModelFactory
 
 @Composable
@@ -38,7 +38,7 @@ fun PhoneContactsNavGraph(
         composable(PhoneContactsDestinations.PHONE_CONTACTS_ROUTE) {
             val viewModel: PhoneContactsViewModel =
                 viewModel(factory = getPhoneContactsViewModelFactory(appContainer = appContainer))
-            PhoneContactsScreen(
+            PhoneContactsRoute(
                 viewModel = viewModel,
                 onAddItem = { navActions.navigateToAddEditPhoneContact(null) },
                 onItemClick = { itemId -> navActions.navigateToPhoneContact(itemId) }

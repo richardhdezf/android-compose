@@ -1,24 +1,12 @@
 package com.example.app.ui.addEditPhoneContact
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,8 +46,10 @@ fun AddEditPhoneContactScreen(
         AddEditPhoneContactContent(
             name = itemState.value.name,
             phone = itemState.value.phone,
+            isFavorite = itemState.value.isFavorite,
             onNameChanged = { viewModel.updateName(it) },
             onPhoneChanged = { viewModel.updatePhone(it) },
+            onFavoriteChanged = { viewModel.updateFavoriteStatus(it) },
             modifier = Modifier.padding(paddingValues)
         )
     }
@@ -69,8 +59,10 @@ fun AddEditPhoneContactScreen(
 private fun AddEditPhoneContactContent(
     name: String,
     phone: String,
+    isFavorite: Boolean,
     onNameChanged: (String) -> Unit,
     onPhoneChanged: (String) -> Unit,
+    onFavoriteChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -103,9 +95,26 @@ private fun AddEditPhoneContactContent(
             onValueChange = onPhoneChanged,
             placeholder = { Text(stringResource(id = R.string.phone_hint)) },
             modifier = Modifier
-                .height(350.dp)
                 .fillMaxWidth(),
             colors = textFieldColors
         )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = dimensionResource(id = R.dimen.list_item_padding))
+        ) {
+            Checkbox(
+                checked = isFavorite,
+                onCheckedChange = { onFavoriteChanged(it) }
+            )
+            Text(
+                text = stringResource(id = R.string.is_favorite),
+                style = MaterialTheme.typography.body1,
+                modifier = Modifier.padding(
+                    top = dimensionResource(id = R.dimen.vertical_checkout_text_margin),
+                    start = dimensionResource(id = R.dimen.horizontal_margin)
+                )
+            )
+        }
     }
 }
